@@ -7,7 +7,9 @@ import {
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Userdetail from './pages/userDetail';
+import Userdisplay from './pages/userDetail';
+import Post from './pages/userDetail/components/post';
+
 
 const router = createBrowserRouter([
   {
@@ -16,7 +18,11 @@ const router = createBrowserRouter([
   },
   {
     path:"/user",
-    element: <Userdetail/>
+    element: <Userdisplay />
+  },
+  {
+    path:"/post",
+    element:<Post />
   }
 ]);
 

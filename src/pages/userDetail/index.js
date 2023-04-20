@@ -1,23 +1,13 @@
 import './index.css';
-import { useEffect } from 'react';
+import Userdetail from './components/getUser';
 
-function Userdetail() {
-    useEffect(() => {
-        try {
-            fetch('https://jsonplaceholder.typicode.com/users')
-                .then(response => response.json())
-                .then(json => console.log(json))
-        } catch (error) {
-            console.log(error);
-        }
 
-    })
-
-    return (
-        <div className='user_table'>
-            
-        </div>
+function Userdisplay() {
+    return(
+        <>
+            <Userdetail />
+        </>
     )
 }
 
-export default Userdetail;
+export default Userdisplay;
