@@ -1,36 +1,37 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import Userdisplay from './pages/userDetail';
-import Post from './pages/userDetail/components/post';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import Userdisplay from "./pages/userDetail";
+import Post from "./pages/userDetail/components/post";
+import Usercreate from "./pages/userDetail/components/userCreate";
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element:<App />,
+//   },
+//   {
+//     path:"/user",
+//     element: <Userdisplay />
+//   },
+//   {
+//     path:"/post",
+//     element:<Post />
+//   }
+// ]);
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element:<App />,
-  },
-  {
-    path:"/user",
-    element: <Userdisplay />
-  },
-  {
-    path:"/post",
-    element:<Post />
-  }
-]);
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
- 
-    <RouterProvider router={router} />
- 
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />}></Route>
+      <Route path="/user" element={<Userdisplay />}></Route>
+      <Route path="/post" element={<Post />}></Route>
+      <Route path="/user/createUser" element={<Usercreate />}></Route>
+    </Routes>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

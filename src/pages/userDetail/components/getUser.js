@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import '../index.css';
 
 function Userdetail() {
 
@@ -39,8 +39,8 @@ function Userdetail() {
     }
    }
     return (
-        <div className='user_table'>
-            <table>
+        <div>
+            <table border="1" className='user_table'>
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -67,6 +67,7 @@ function Userdetail() {
 
                 </tbody>
             </table>
+            <Link to={'createUser'}>Create User</Link>
         </div>
     )
 }

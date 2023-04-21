@@ -1,13 +1,10 @@
-import './index.css';
-import Userdetail from './components/getUser';
-
-
+import Userdetail from "./components/getUser";
 function Userdisplay() {
-    return(
-        <>
-            <Userdetail />
-        </>
-    )
+  return (
+    <>
+      <Userdetail />
+    </>
+  );
 }
 
 export default Userdisplay;
