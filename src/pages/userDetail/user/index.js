@@ -1,5 +1,5 @@
 import Userdetail from "./components/getUser";
-function Userdisplay() {
+export default function Userdisplay() {
   return (
     <>
       <Userdetail />
@@ -7,4 +7,3 @@ function Userdisplay() {
   );
 }
 
-export default Userdisplay;

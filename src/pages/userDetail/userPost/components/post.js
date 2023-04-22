@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Fetchcomment from "./fetchComment";
-import "../index.css";
+import "../css/style.css";
 
 function Post() {
   const [post, setPost] = useState([]);
@@ -22,7 +22,7 @@ function Post() {
       console.log(error);
     }
   };
-  console.log(post);
+ 
   useEffect(() => {
     fetchPost();
     //eslint-disable-next-line
@@ -33,7 +33,7 @@ function Post() {
       return (prevvisible += 3);
     });
   }
-  console.log(visible);
+
 
   return (
     <>

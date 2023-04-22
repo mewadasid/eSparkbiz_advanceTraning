@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../index.css";
+import "../css/style.css";
 export default function Usercreate() {
   const [elements, setElement] = useState({
     firstname: "",
@@ -19,15 +19,18 @@ export default function Usercreate() {
 
     Object.keys(elements).forEach((item) => {
       if (item === "intrest") {
-        debugger;
         for (let i = 0; i < e.target["intrest"].length; i++) {
-          console.log(e.target["intrest"][i].checked);
+          if (e.target["intrest"][i].checked) {
+            temp["intrest"] += e.target["intrest"][i].checked;
+          }
         }
       }
 
       temp[item] = e.target[item].value;
     });
     setElement(temp);
+    console.log(elements);
+
     e.preventDefault();
     setError(validate(temp));
   }
@@ -42,6 +45,16 @@ export default function Usercreate() {
     //eslint-disable-next-line
   }, [errors]);
   /* calling at submit time and call validate  */
+
+  function getCurrentDate() {
+    let date = new Date();
+    let dateString;
+    let month = date.getMonth() + 1;
+    month = month < 10 ? "0" : "" + date.getMonth() + 1;
+    console.log(month, ">>>>>");
+    dateString = date.getFullYear() + "-" + month + "-" + date.getDate();
+    return dateString;
+  }
 
   /* Form field validation */
 
@@ -63,7 +76,14 @@ export default function Usercreate() {
       error.address = "Please Fill Addrress";
     }
     if (inputValue.dob === "") {
-      error.dob = "Please Select Date of Birth";
+      error.dob = "Please Select Date of Binirth";
+    } else {
+      console.log(inputValue.dob);
+      let currDate = getCurrentDate();
+      console.log(currDate);
+      if (inputValue.dob.includes(currDate)) {
+        error.currdate = "Selected Date is current date, Select Diffrent";
+      }
     }
     if (inputValue.gender === "") {
       error.gender = "Please Select Gender";
@@ -157,6 +177,7 @@ export default function Usercreate() {
               <td>
                 <input type="date" name="dob" id="userEmail" />
                 <span className="fieldError">{errors.dob}</span>
+                <span className="fieldError">{errors.currdate}</span>
               </td>
             </tr>
             <tr>

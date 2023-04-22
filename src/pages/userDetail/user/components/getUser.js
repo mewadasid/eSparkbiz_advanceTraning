@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../index.css';
+import '../css/style.css';
 
 function Userdetail() {
 
@@ -10,7 +10,6 @@ function Userdetail() {
         try {
             const response = await fetch('https://jsonplaceholder.typicode.com/users');
             const data = await response.json();
-            // console.log(data);
             if (data) {
                 setUserData(data);
             }
@@ -24,9 +23,7 @@ function Userdetail() {
     }, [])
 
    function fetchAddress(address){
-    console.log(address);
-  
-    let useraddress ='';
+      let useraddress ='';
  
     if(address)
     {

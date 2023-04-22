@@ -4,9 +4,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import Userdisplay from "./pages/userDetail";
-import Post from "./pages/userDetail/components/post";
-import Usercreate from "./pages/userDetail/components/userCreate";
+import Userdisplay from "./pages/userDetail/user/index";
+import Userpost from "./pages/userDetail/userPost/index";
+import Usercreate from "./pages/userDetail/user/components/userCreate";
 // const router = createBrowserRouter([
 //   {
 //     path: "/",
@@ -28,7 +28,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />}></Route>
       <Route path="/user" element={<Userdisplay />}></Route>
-      <Route path="/post" element={<Post />}></Route>
+      <Route path="/post" element={<Userpost />}></Route>
       <Route path="/user/createUser" element={<Usercreate />}></Route>
     </Routes>
   </BrowserRouter>
