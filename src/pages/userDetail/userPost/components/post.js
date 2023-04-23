@@ -22,7 +22,7 @@ function Post() {
       console.log(error);
     }
   };
- 
+
   useEffect(() => {
     fetchPost();
     //eslint-disable-next-line
@@ -34,12 +34,13 @@ function Post() {
     });
   }
 
-
   return (
     <>
       <div className="container">
         <Link to={"/user"}>
-          <button className="back_btn">Back to User</button>
+          <button className="back_btn">
+            <i class="fa-sharp fa-solid fa-arrow-left"></i>Back to User
+          </button>
         </Link>
 
         {post.slice(0, visible).map((item) => (

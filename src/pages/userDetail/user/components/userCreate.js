@@ -29,7 +29,6 @@ export default function Usercreate() {
       temp[item] = e.target[item].value;
     });
     setElement(temp);
-    console.log(elements);
 
     e.preventDefault();
     setError(validate(temp));
@@ -48,10 +47,10 @@ export default function Usercreate() {
 
   function getCurrentDate() {
     let date = new Date();
+
     let dateString;
     let month = date.getMonth() + 1;
-    month = month < 10 ? "0" : "" + date.getMonth() + 1;
-    console.log(month, ">>>>>");
+    month = month < 10 ? "0" + month : "" + month;
     dateString = date.getFullYear() + "-" + month + "-" + date.getDate();
     return dateString;
   }
@@ -71,6 +70,11 @@ export default function Usercreate() {
     }
     if (inputValue.number === "") {
       error.number = "Please Fill Number";
+    } else {
+      let number_regex = /[1-9]{1}[0-9]{9}/;
+      if (!number_regex.test(inputValue.number)) {
+        error.number = "Mobile number must be 10 digit only";
+      }
     }
     if (inputValue.address === "") {
       error.address = "Please Fill Addrress";
@@ -78,11 +82,17 @@ export default function Usercreate() {
     if (inputValue.dob === "") {
       error.dob = "Please Select Date of Binirth";
     } else {
-      console.log(inputValue.dob);
       let currDate = getCurrentDate();
-      console.log(currDate);
-      if (inputValue.dob.includes(currDate)) {
-        error.currdate = "Selected Date is current date, Select Diffrent";
+      if (inputValue.dob.includes(currDate) || inputValue.dob > currDate) {
+        error.dob = "Selected Date is current or greater than current";
+      } else {
+        let date = new Date();
+        let year = date.getFullYear();
+        year = year.toString();
+        let inputYear = inputValue.dob.split("-")[0];
+        if (inputYear === year || inputYear > year || !(inputYear > 1980)) {
+          error.dob = "Year must less than 1980 and it not eqaul to current";
+        }
       }
     }
     if (inputValue.gender === "") {
@@ -177,7 +187,6 @@ export default function Usercreate() {
               <td>
                 <input type="date" name="dob" id="userEmail" />
                 <span className="fieldError">{errors.dob}</span>
-                <span className="fieldError">{errors.currdate}</span>
               </td>
             </tr>
             <tr>

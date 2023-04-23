@@ -8,9 +8,10 @@
     max-width: 1170px;
     margin: 0 auto;
 }
-
+.user_table{margin: 10px auto;}
 .user_table tbody tr td,
 thead tr th {
+    text-align: center;
     height: 30px;
     border: none;
     background-color: rgba(173, 228, 219, 0.4);
@@ -19,6 +20,7 @@ thead tr th {
 .user_table tr:nth-child(even) {
     background-color: #ADE4DB;
 }
+
 .userform {
     width: 50%;
     margin: 10px auto;

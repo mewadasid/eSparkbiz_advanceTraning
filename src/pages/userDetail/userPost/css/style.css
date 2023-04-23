@@ -47,7 +47,9 @@
     background-color: rgb(246, 186, 111);
     border-radius: 20px;
 }
-
+.fa-regular{
+    margin: 0 5px;
+}
 .head {
     font-size: 20px;
     font-weight: bold;
@@ -76,7 +78,7 @@
     font-size: 15px;
     font-weight: bold;
     color: #FFEBEB;
-    width: 150px;
+    width: 200px;
     padding: 8px;
     border: none;
     cursor: pointer;
