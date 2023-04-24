@@ -37,11 +37,19 @@ function Post() {
   return (
     <>
       <div className="container">
-        <Link to={"/user"}>
-          <button className="back_btn">
-            <i class="fa-sharp fa-solid fa-arrow-left"></i>Back to User
-          </button>
-        </Link>
+        <div className="link_btn">
+          <Link to={"/user"}>
+            <button className="back_btn">
+              <i className="fa-sharp fa-solid fa-arrow-left icon_ml"></i>Back to
+              User
+            </button>
+          </Link>
+          <Link to={"createPost"}>
+            <button className="back_btn">
+              <i className="fa-solid fa-circle-plus icon_ml"></i>Create Post
+            </button>
+          </Link>
+        </div>
 
         {post.slice(0, visible).map((item) => (
           <div className="post_card" key={item.id}>

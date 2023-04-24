@@ -55,7 +55,7 @@ function Userdetail() {
                 <td>{fetchAddress(data.address)}</td>
                 <td>
                   <Link to={"/post"} state={data.id}>
-                    <i class="fa-sharp fa-solid fa-eye"></i>
+                    <i class="fa-sharp fa-solid fa-eye icon_ml"></i>
                   </Link>
                 </td>
               </tr>

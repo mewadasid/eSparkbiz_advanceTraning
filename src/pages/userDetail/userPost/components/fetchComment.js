@@ -25,9 +25,10 @@ export default function Fetchcomment({ commentId }) {
     <div className="load_comment">
       <div className="btn_loadcomment">
         <button onClick={() => fetchcomment(commentId)}>
-          <i className="fa-regular fa-comment"></i>Load Comments
+          <i className="fa-regular fa-comment icon_ml"></i>Load Comments
         </button>
       </div>
+
       {comment.map((item) => {
         return (
           <>

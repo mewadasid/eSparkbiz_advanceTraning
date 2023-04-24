@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import Userdisplay from "./pages/userDetail/user/index";
 import Userpost from "./pages/userDetail/userPost/index";
 import Usercreate from "./pages/userDetail/user/components/userCreate";
+import Postcreate from "./pages/userDetail/userPost/components/createPost";
 // const router = createBrowserRouter([
 //   {
 //     path: "/",
@@ -30,6 +31,7 @@ root.render(
       <Route path="/user" element={<Userdisplay />}></Route>
       <Route path="/post" element={<Userpost />}></Route>
       <Route path="/user/createUser" element={<Usercreate />}></Route>
+      <Route path="/post/createPost" element={<Postcreate />}></Route>
     </Routes>
   </BrowserRouter>
 );

@@ -8,6 +8,12 @@
     max-width: 1170px;
     margin: 0 auto;
 }
+
+.link_btn {
+    display: flex;
+    justify-content: space-around;
+}
+
 .back_btn {
     padding: 10px;
     border: none;
@@ -17,10 +23,12 @@
     background-color: #F6BA6F;
     font-size: 14px;
     font-weight: bold;
+    cursor: pointer;
     padding-left: 10px;
 }
 
 .post_card {
+
     margin: 20px auto;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 10px;
@@ -47,9 +55,11 @@
     background-color: rgb(246, 186, 111);
     border-radius: 20px;
 }
-.fa-regular{
+
+.icon_ml {
     margin: 0 5px;
 }
+
 .head {
     font-size: 20px;
     font-weight: bold;
@@ -62,10 +72,10 @@
 
 .main_comment_card {
     box-shadow: rgba(7, 103, 182, 0.35) 0px 5px 15px;
-    ;
+    display: flex;
     padding: 10px;
     border-radius: 10px;
-    width: 50%;
+    width: calc(100%/3);
     margin: 10px auto;
 }
 
@@ -84,4 +94,13 @@
     cursor: pointer;
     background-color: rgb(201, 167, 235);
     border-radius: 20px;
+}
+
+.fieldError {
+    color: #ff0000;
+    display: inline-block;
+    font-size: 15px;
+    margin: 10px 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
 }

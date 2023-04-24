@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import "../css/style.css";
+import { useNavigate } from "react-router-dom";
 export default function Usercreate() {
   const [elements, setElement] = useState({
     firstname: "",
@@ -9,42 +10,98 @@ export default function Usercreate() {
     number: "",
     gender: "",
     dob: "",
-    intrest: "",
+    intrest: [],
+    achievment: [],
   });
+
   const [errors, setError] = useState({});
+  const navigate = useNavigate();
+
+  const initialRender = useRef(true);
+  //to stop initialRender we use useRef ,useRef preseve value on render it not at every re-render
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      if (
+        Object.keys(errors).length === 0 &&
+        Object.keys(elements).length !== 0
+      ) {
+        /* Redirect if no errors occur */
+        console.log(elements);
+        navigate("/post/createPost");
+      }
+    }
+    //eslint-disable-next-line
+  }, [errors]);
 
   /* calling at submit time and call validate  */
   function checkEmpty(e) {
     const temp = {};
 
     Object.keys(elements).forEach((item) => {
+      let UserIntrest = [];
       if (item === "intrest") {
         for (let i = 0; i < e.target["intrest"].length; i++) {
           if (e.target["intrest"][i].checked) {
-            temp["intrest"] += e.target["intrest"][i].checked;
+            UserIntrest.push(e.target["intrest"][i].value);
+            temp["intrest"] = UserIntrest;
+          } else {
+            temp["intrest"] = UserIntrest; //store empty array bcz of  validation
           }
         }
-      }
+      } else if (item === "achievment") {
+        let achievmentArray = [];
 
-      temp[item] = e.target[item].value;
+        if (e.target["achievment"] !== undefined) {
+          if (e.target["achievment"].length === undefined)
+            if (
+              e.target["achievment"].value !== "" &&
+              e.target["achievment_date"].value !== ""
+            ) {
+              achievmentArray.push(
+                e.target["achievment"].value +
+                  "," +
+                  e.target["achievment_date"].value
+              );
+
+              temp["achievment"] = achievmentArray;
+            } else {
+              temp["achievment"] = achievmentArray;
+            }
+          else {
+            for (let i = 0; i < e.target["achievment"].length; i++) {
+              if (
+                e.target["achievment"][i].value !== "" &&
+                e.target["achievment_date"][i].value !== ""
+              ) {
+                achievmentArray.push(
+                  e.target["achievment"][i].value +
+                    "," +
+                    e.target["achievment_date"][i].value
+                );
+
+                temp["achievment"] = achievmentArray;
+              } else {
+                temp["achievment"] = achievmentArray;
+              }
+            }
+          }
+        }
+      } else {
+        temp[item] = e.target[item].value;
+      }
     });
-    setElement(temp);
+
+    setElement(temp); /* Set temp to elements varible */
 
     e.preventDefault();
     setError(validate(temp));
   }
 
-  useEffect(() => {
-    if (
-      Object.keys(errors).length === 0 &&
-      Object.keys(elements).length !== 0
-    ) {
-      console.log(elements);
-    }
-    //eslint-disable-next-line
-  }, [errors]);
   /* calling at submit time and call validate  */
 
+  /* Function to get current date in yyyy-mm-dd format */
   function getCurrentDate() {
     let date = new Date();
 
@@ -54,9 +111,25 @@ export default function Usercreate() {
     dateString = date.getFullYear() + "-" + month + "-" + date.getDate();
     return dateString;
   }
+  /* Function to get current date in yyyy-mm-dd format */
+
+  /* Adding row on button click and removing row when remove button click */
+  const [addingRow, setAddrow] = useState([]);
+  function addRow(e) {
+    let cloneTd = [...addingRow, []];
+
+    setElement({ ...elements, achievment: [] });
+    setAddrow(cloneTd);
+  }
+
+  function removeRow(index) {
+    let rtd = [...addingRow];
+    rtd.splice(index, 1);
+    setAddrow(rtd);
+  }
+  /* Adding row on button click and removing row when remove button click */
 
   /* Form field validation */
-
   function validate(inputValue) {
     const error = {};
     if (inputValue.firstname === "") {
@@ -71,7 +144,7 @@ export default function Usercreate() {
     if (inputValue.number === "") {
       error.number = "Please Fill Number";
     } else {
-      let number_regex = /[1-9]{1}[0-9]{9}/;
+      let number_regex = /^[1-9]\d{9}/gm;
       if (!number_regex.test(inputValue.number)) {
         error.number = "Mobile number must be 10 digit only";
       }
@@ -80,23 +153,31 @@ export default function Usercreate() {
       error.address = "Please Fill Addrress";
     }
     if (inputValue.dob === "") {
-      error.dob = "Please Select Date of Binirth";
+      error.dob = "Please Select Date of Birth ";
     } else {
       let currDate = getCurrentDate();
       if (inputValue.dob.includes(currDate) || inputValue.dob > currDate) {
-        error.dob = "Selected Date is current or greater than current";
+        error.dob = "Date cannot be greater than today or equal";
       } else {
+        /* If user enter date less than current then we check year for validation like year cannot be current */
         let date = new Date();
         let year = date.getFullYear();
         year = year.toString();
         let inputYear = inputValue.dob.split("-")[0];
-        if (inputYear === year || inputYear > year || !(inputYear > 1980)) {
-          error.dob = "Year must less than 1980 and it not eqaul to current";
+        if (inputYear === year || inputYear > year) {
+          error.dob = "Year cannot be greater than currnet year or equal ";
         }
       }
     }
     if (inputValue.gender === "") {
       error.gender = "Please Select Gender";
+    }
+    if (inputValue.intrest.length === 0) {
+      error.intrest = "Please select any one";
+    }
+    if (inputValue.achievment) {
+      if (inputValue.achievment.length === 0)
+        error.achievment = "Please select achievments";
     }
     return error;
   }
@@ -107,7 +188,7 @@ export default function Usercreate() {
   return (
     <>
       <form method="post" className="userform" onSubmit={checkEmpty}>
-        <table>
+        <table id="main_table">
           <tbody>
             <tr>
               <td>
@@ -185,7 +266,7 @@ export default function Usercreate() {
                 <label>DOB : </label>
               </td>
               <td>
-                <input type="date" name="dob" id="userEmail" />
+                <input type="date" name="dob" id="userEmail" min="1980-12-31" />
                 <span className="fieldError">{errors.dob}</span>
               </td>
             </tr>
@@ -213,8 +294,40 @@ export default function Usercreate() {
                 Writing
                 <input type="checkbox" name="intrest" value="travel" />
                 Travel
+                <span className="fieldError">{errors.intrest}</span>
               </td>
             </tr>
+            <tr>
+              <td id="achievment_row">
+                <i className="fa-solid fa-circle-plus icon_ml" onClick={addRow}>
+                  ADD
+                </i>
+              </td>
+            </tr>
+            {addingRow.map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td>
+                    <label>Achievments:</label>
+                  </td>
+                  <td id="achievment_row">
+                    <input type="text" name="achievment" id="achievmentTitle" />
+                    <input
+                      type="date"
+                      name="achievment_date"
+                      id="achievmentDate"
+                    />
+                    <i
+                      className="fa-sharp fa-solid fa-xmark icon_ml"
+                      onClick={() => removeRow(index)}
+                    >
+                      Remove
+                    </i>
+                    <span className="fieldError">{errors.achievment}</span>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <input type="submit" value="Create User" />

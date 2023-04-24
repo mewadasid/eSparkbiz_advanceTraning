@@ -8,7 +8,11 @@
     max-width: 1170px;
     margin: 0 auto;
 }
-.user_table{margin: 10px auto;}
+
+.user_table {
+    margin: 10px auto;
+}
+
 .user_table tbody tr td,
 thead tr th {
     text-align: center;
@@ -39,7 +43,7 @@ input[type="text"],
     resize: none;
     margin-left: 10px;
     outline: none;
-    width: 100%;
+    width: auto;
     padding: 12px;
     border: none;
     border-bottom: 2px solid #ec8c8c;
@@ -71,4 +75,14 @@ input[type="text"],
     font-size: 14px;
     margin: 0 15px;
     font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.icon_ml {
+    margin: 0 5px;
+}
+
+.addRowbtn {
+    background: none;
+    border: none;
+    font-size: 18px;
 }
