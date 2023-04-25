@@ -42,19 +42,23 @@ export default function Usercreate() {
     Object.keys(elements).forEach((item) => {
       let UserIntrest = [];
       if (item === "intrest") {
-        for (let i = 0; i < e.target["intrest"].length; i++) {
-          if (e.target["intrest"][i].checked) {
-            UserIntrest.push(e.target["intrest"][i].value);
+        let arrIntrest = e.target["intrest"];
+
+        Object.values(arrIntrest).map((item) => {
+          if (item.checked) {
+            UserIntrest.push(item.value);
             temp["intrest"] = UserIntrest;
           } else {
-            temp["intrest"] = UserIntrest; //store empty array bcz of  validation
+            temp["intrest"] = UserIntrest;
           }
-        }
+          return true;
+        });
+        console.log(UserIntrest);
       } else if (item === "achievment") {
         let achievmentArray = [];
 
         if (e.target["achievment"] !== undefined) {
-          if (e.target["achievment"].length === undefined)
+          if (e.target["achievment"].length === undefined) {
             if (
               e.target["achievment"].value !== "" &&
               e.target["achievment_date"].value !== ""
@@ -64,28 +68,29 @@ export default function Usercreate() {
                   "," +
                   e.target["achievment_date"].value
               );
-
               temp["achievment"] = achievmentArray;
             } else {
               temp["achievment"] = achievmentArray;
             }
-          else {
-            for (let i = 0; i < e.target["achievment"].length; i++) {
+          } else {
+            let achievmentArray = e.target["achievment"];
+            let achievment = [];
+            console.log(achievmentArray, "ASCHH");
+            debugger;
+            Object.values(achievmentArray).map((item, index) => {
               if (
-                e.target["achievment"][i].value !== "" &&
-                e.target["achievment_date"][i].value !== ""
+                item.value !== "" &&
+                e.target["achievment_date"][index].value !== ""
               ) {
-                achievmentArray.push(
-                  e.target["achievment"][i].value +
-                    "," +
-                    e.target["achievment_date"][i].value
+                achievment.push(
+                  item.value + " , " + e.target["achievment_date"][index].value
                 );
-
-                temp["achievment"] = achievmentArray;
+                temp["achievment"] = achievment;
               } else {
-                temp["achievment"] = achievmentArray;
+                temp["achievment"] = achievment;
               }
-            }
+              return true;
+            });
           }
         }
       } else {
