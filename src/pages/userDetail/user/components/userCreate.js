@@ -11,10 +11,11 @@ export default function Usercreate() {
     gender: "",
     dob: "",
     intrest: [],
-    achievment: [],
+    achievment: "",
   });
 
   const [errors, setError] = useState({});
+
   const navigate = useNavigate();
 
   const initialRender = useRef(true);
@@ -53,7 +54,6 @@ export default function Usercreate() {
           }
           return true;
         });
-        console.log(UserIntrest);
       } else if (item === "achievment") {
         let achievmentArray = [];
 
@@ -63,31 +63,39 @@ export default function Usercreate() {
               e.target["achievment"].value !== "" &&
               e.target["achievment_date"].value !== ""
             ) {
-              achievmentArray.push(
-                e.target["achievment"].value +
-                  "," +
-                  e.target["achievment_date"].value
-              );
+              achievmentArray.push([
+                {
+                  title: e.target["achievment"].value,
+                  date: e.target["achievment_date"].value,
+                },
+              ]);
+
               temp["achievment"] = achievmentArray;
             } else {
-              temp["achievment"] = achievmentArray;
+              temp["achievment"] = [{ title: "", date: "" }];
             }
           } else {
+            console.log("object");
             let achievmentArray = e.target["achievment"];
+
             let achievment = [];
-            console.log(achievmentArray, "ASCHH");
-            debugger;
-            Object.values(achievmentArray).map((item, index) => {
+
+            Object.values(achievmentArray).forEach((item, index) => {
+              debugger;
+              console.log(index);
               if (
                 item.value !== "" &&
                 e.target["achievment_date"][index].value !== ""
               ) {
-                achievment.push(
-                  item.value + " , " + e.target["achievment_date"][index].value
-                );
+                achievment.push([
+                  {
+                    title: item.value,
+                    date: e.target["achievment_date"][index].value,
+                  },
+                ]);
                 temp["achievment"] = achievment;
               } else {
-                temp["achievment"] = achievment;
+                temp["achievment"] = [{ title: "", date: "" }];
               }
               return true;
             });
@@ -102,8 +110,8 @@ export default function Usercreate() {
 
     e.preventDefault();
     setError(validate(temp));
+    console.log(temp);
   }
-
   /* calling at submit time and call validate  */
 
   /* Function to get current date in yyyy-mm-dd format */
@@ -119,11 +127,11 @@ export default function Usercreate() {
   /* Function to get current date in yyyy-mm-dd format */
 
   /* Adding row on button click and removing row when remove button click */
-  const [addingRow, setAddrow] = useState([]);
+  const [addingRow, setAddrow] = useState([{ title: "", date: "" }]);
   function addRow(e) {
-    let cloneTd = [...addingRow, []];
+    let cloneTd = [...addingRow, { title: "", date: "" }];
 
-    setElement({ ...elements, achievment: [] });
+    // setElement({ ...elements, achievment: { title: "", date: "" } }); //Adding a key with empty array when addrow click(because if user click direct submit then INTIAL Achievment key remove bcz of it not get into elseif condition write on above)
     setAddrow(cloneTd);
   }
 
@@ -180,10 +188,14 @@ export default function Usercreate() {
     if (inputValue.intrest.length === 0) {
       error.intrest = "Please select any one";
     }
-    if (inputValue.achievment) {
-      if (inputValue.achievment.length === 0)
+
+    inputValue.achievment.forEach((item) => {
+      console.log(item.title);
+      if (item.title === "") {
         error.achievment = "Please select achievments";
-    }
+      }
+    });
+
     return error;
   }
 
@@ -322,12 +334,15 @@ export default function Usercreate() {
                       name="achievment_date"
                       id="achievmentDate"
                     />
-                    <i
-                      className="fa-sharp fa-solid fa-xmark icon_ml"
-                      onClick={() => removeRow(index)}
-                    >
-                      Remove
-                    </i>
+
+                    {index >= 1 ? (
+                      <i
+                        className="fa-sharp fa-solid fa-xmark icon_ml"
+                        onClick={() => removeRow(index)}
+                      >
+                        Remove
+                      </i>
+                    ) : null}
                     <span className="fieldError">{errors.achievment}</span>
                   </td>
                 </tr>
@@ -339,5 +354,5 @@ export default function Usercreate() {
       </form>
     </>
   );
-  /* Returing Form */
+  /* Returning Form */
 }
