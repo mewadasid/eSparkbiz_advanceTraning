@@ -41,69 +41,81 @@ export default function Usercreate() {
     const temp = {};
 
     Object.keys(elements).forEach((item) => {
-      let UserIntrest = [];
-      if (item === "intrest") {
-        let arrIntrest = e.target["intrest"];
+      const UserIntrest = [];
 
-        Object.values(arrIntrest).map((item) => {
-          if (item.checked) {
+      switch (item) {
+        case "intrest":
+          const arrIntrest = e.target["intrest"];
+          console.log(Object.values(arrIntrest), ";;;;;")
+
+
+          const items = Object.values(arrIntrest).filter((item) => {
+            return item.checked;
+          }).map((item) => {
             UserIntrest.push(item.value);
-            temp["intrest"] = UserIntrest;
-          } else {
-            temp["intrest"] = UserIntrest;
-          }
-          return true;
-        });
-      } else if (item === "achievment") {
-        let achievmentArray = [];
 
-        if (e.target["achievment"] !== undefined) {
-          if (e.target["achievment"].length === undefined) {
-            if (
-              e.target["achievment"].value !== "" &&
-              e.target["achievment_date"].value !== ""
-            ) {
-              achievmentArray.push([
-                {
-                  title: e.target["achievment"].value,
-                  date: e.target["achievment_date"].value,
-                },
-              ]);
-
-              temp["achievment"] = achievmentArray;
-            } else {
-              temp["achievment"] = [{ title: "", date: "" }];
+            if (UserIntrest) {
+              temp["intrest"] = UserIntrest;
             }
-          } else {
-            console.log("object");
-            let achievmentArray = e.target["achievment"];
+            return true;
+          });
+          if (items) {
+            temp["intrest"] = UserIntrest
+          }
+          break;
 
-            let achievment = [];
-
-            Object.values(achievmentArray).forEach((item, index) => {
-              debugger;
-              console.log(index);
+        case "achievment":
+          if (e.target["achievment"] !== undefined) {
+            if (e.target["achievment"].length === undefined) {
               if (
-                item.value !== "" &&
-                e.target["achievment_date"][index].value !== ""
+                e.target["achievment"].value !== "" &&
+                e.target["achievment_date"].value !== ""
               ) {
-                achievment.push([
-                  {
-                    title: item.value,
-                    date: e.target["achievment_date"][index].value,
-                  },
-                ]);
-                temp["achievment"] = achievment;
+                temp["achievment"] = [{ title: e.target["achievment"].value, date: e.target["achievment_date"].value }];
               } else {
                 temp["achievment"] = [{ title: "", date: "" }];
               }
-              return true;
-            });
+            } else {
+
+              const achievmentArray = e.target["achievment"];
+
+              let achievment = [];
+
+              Object.values(achievmentArray).forEach((item, index) => {
+                debugger;
+                console.log(index);
+                if (
+                  item.value !== "" &&
+                  e.target["achievment_date"][index].value !== ""
+                ) {
+                  achievment.push([
+                    {
+                      title: item.value,
+                      date: e.target["achievment_date"][index].value,
+                    },
+                  ]);
+                  temp["achievment"] = achievment;
+                } else {
+                  temp["achievment"] = [{ title: "", date: "" }];
+                }
+                return true;
+              });
+            }
           }
-        }
-      } else {
-        temp[item] = e.target[item].value;
+          break;
+        default: temp[item] = e.target[item].value;
+          break;
+
       }
+      // if (item === "intrest") {
+      //   debugger
+
+      // } else if (item === "achievment") {
+
+
+      // } else {
+
+      // }
     });
 
     setElement(temp); /* Set temp to elements varible */
@@ -116,9 +128,9 @@ export default function Usercreate() {
 
   /* Function to get current date in yyyy-mm-dd format */
   function getCurrentDate() {
-    let date = new Date();
+    const date = new Date();
 
-    let dateString;
+    let dateString = "";
     let month = date.getMonth() + 1;
     month = month < 10 ? "0" + month : "" + month;
     dateString = date.getFullYear() + "-" + month + "-" + date.getDate();
@@ -129,14 +141,14 @@ export default function Usercreate() {
   /* Adding row on button click and removing row when remove button click */
   const [addingRow, setAddrow] = useState([{ title: "", date: "" }]);
   function addRow(e) {
-    let cloneTd = [...addingRow, { title: "", date: "" }];
+    const cloneTd = [...addingRow, { title: "", date: "" }];
 
     // setElement({ ...elements, achievment: { title: "", date: "" } }); //Adding a key with empty array when addrow click(because if user click direct submit then INTIAL Achievment key remove bcz of it not get into elseif condition write on above)
     setAddrow(cloneTd);
   }
 
   function removeRow(index) {
-    let rtd = [...addingRow];
+    const rtd = [...addingRow];
     rtd.splice(index, 1);
     setAddrow(rtd);
   }
@@ -157,7 +169,7 @@ export default function Usercreate() {
     if (inputValue.number === "") {
       error.number = "Please Fill Number";
     } else {
-      let number_regex = /^[1-9]\d{9}/gm;
+      const number_regex = /^[1-9]\d{9}/gm;
       if (!number_regex.test(inputValue.number)) {
         error.number = "Mobile number must be 10 digit only";
       }
@@ -168,15 +180,15 @@ export default function Usercreate() {
     if (inputValue.dob === "") {
       error.dob = "Please Select Date of Birth ";
     } else {
-      let currDate = getCurrentDate();
+      const currDate = getCurrentDate();
       if (inputValue.dob.includes(currDate) || inputValue.dob > currDate) {
         error.dob = "Date cannot be greater than today or equal";
       } else {
         /* If user enter date less than current then we check year for validation like year cannot be current */
-        let date = new Date();
+        const date = new Date();
         let year = date.getFullYear();
         year = year.toString();
-        let inputYear = inputValue.dob.split("-")[0];
+        const inputYear = inputValue.dob.split("-")[0];
         if (inputYear === year || inputYear > year) {
           error.dob = "Year cannot be greater than currnet year or equal ";
         }
